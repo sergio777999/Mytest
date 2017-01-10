@@ -3,7 +3,7 @@
 #include<memory>
 #include<exception>
 
-//continue
+//continue pull
 using namespace std;
 
 class Node
