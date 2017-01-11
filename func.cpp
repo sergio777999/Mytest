@@ -8,3 +8,7 @@ void func(std::string& s)
  s += " + new text";
  std::cout << "Modified string: " << s << std::endl;
 }
+
+
+
+///////

@@ -4,7 +4,15 @@
 #include<exception>
 #include<utility>
 
+<<<<<<< HEAD
 using namespace std::rel_ops;
+=======
+
+//practice inside new-feature
+//another
+
+
+>>>>>>> 1a3165399372a2e799e03083719cfe153cb67fa2
 using namespace std;
 
 class Node
