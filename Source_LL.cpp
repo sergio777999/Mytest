@@ -7,7 +7,7 @@
 //practice inside new-feature
 //another
 //and another
-
+//
 using namespace std;
 
 class Node
