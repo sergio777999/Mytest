@@ -2,12 +2,9 @@
 #include<string>
 #include<memory>
 #include<exception>
+#include<utility>
 
-
-//practice inside new-feature
-//another
-//and another
-//
+using namespace std::rel_ops;
 using namespace std;
 
 class Node
@@ -27,6 +24,11 @@ public:
 
 	int showTotal()	{	return total;	}
 
+  inline bool operator<(const shared_ptr<Node> aNode) const
+	{ return this->number < aNode->number; }
+
+	inline bool operator==(const shared_ptr<Node> aNode) const
+	{ return this->number == aNode->number; }
 };
 
 int Node::total{ 0 };
@@ -96,6 +98,16 @@ public:
 	 }
 	}
 
+  shared_ptr<Node> searchNode(string str)
+	{
+	 if(pHead)
+	 {
+	  pCurrent = pHead;
+		while(pCurrent = pCurrent->pNext)
+				 if(pCurrent->name == str)
+				   return pCurrent;
+	 }
+	}
 };
 
 int main()
@@ -108,6 +120,13 @@ int main()
 	ll.AddNode("Monica", 5);
 	ll.printNodes();
   
+  if(ll.searchNode("Sam") < ll.searchNode("Monica"))
+				cout << "Monica is gt than Sam" << endl;
+  if(ll.searchNode("Tom") == ll.searchNode("Tom"))
+				cout << "Tom is equal to Tom" << endl;
+	if(!(ll.searchNode("Tom") == ll.searchNode("Sam")))
+				cout << "TOm is not equal to Sam" << endl;
+
 	ll.removeNode(3);
   ll.printNodes();
 	return 0;
