@@ -7,22 +7,25 @@
 using namespace std::rel_ops;
 using namespace std;
 
+template<typename T>
 class Node
 {
-	string name{ "" };
+	T value{};
 	int number{ 0 };
 	shared_ptr<Node> pNext = nullptr;
 	static int total;
 public:
 	friend class LinkedList;
 
-	Node(string s, int n) : name{s}, number{n}, pNext{nullptr}
+	Node(T val, int n) : value{val}, number{n}, pNext{nullptr}
 	{
 		if(n > 0)
 			++total;
 	}
 
-	int showTotal()	{	return total;	}
+	inline int showTotal()	{	return total;	}
+
+	inline string showValue() { return value; }
 
   inline bool operator<(const shared_ptr<Node> aNode) const
 	{ return this->number < aNode->number; }
@@ -31,23 +34,25 @@ public:
 	{ return this->number == aNode->number; }
 };
 
-int Node::total{ 0 };
+template<typename T>
+int Node<T>::total{ 0 };
 
+template<typename T1>
 class LinkedList
 {
-	shared_ptr<Node> pHead = nullptr;
-	shared_ptr<Node> pCurrent = nullptr;
+	shared_ptr<T1> pHead = nullptr;
+	shared_ptr<T1> pCurrent = nullptr;
 	
 public:
 	LinkedList()
 	{
 		if (!pHead)
 		{
-			pHead = make_shared<Node>("", 0);
+			pHead = make_shared<T1>(NULL, 0);
 		}
 	}
 
-	void AddNode(string name, int num)
+	void AddNode(T val, int num)
 	{
 		if (pHead)
 		{
@@ -56,7 +61,7 @@ public:
 			{
 				if (!pCurrent->pNext)
 				{
-					pCurrent->pNext = make_shared<Node>(name, num);
+					pCurrent->pNext = make_shared<Node>(val, num);
 					break;
 				}
 
@@ -71,7 +76,7 @@ public:
 			pCurrent = pHead;
 			while (pCurrent = pCurrent->pNext)
 			{
-				cout << "Name: " << pCurrent->name << " is number: " << pCurrent->number << endl;
+				cout << "Value: " << pCurrent->value << " is number: " << pCurrent->number << endl;
 			}
 			cout << "Total number of records is: " << pHead->showTotal() << endl;
 		}
@@ -98,29 +103,41 @@ public:
 	 }
 	}
 
-  shared_ptr<Node> searchNode(string str)
+  shared_ptr<Node> searchNode(T val)
 	{
 	 if(pHead)
 	 {
 	  pCurrent = pHead;
 		while(pCurrent = pCurrent->pNext)
-				 if(pCurrent->name == str)
+				 if(pCurrent->value == val)
 				   return pCurrent;
 	 }
+	}
+
+ shared_ptr<Node> operator[](size_t index) const
+	{
+	 shared_ptr<Node> temp = pHead;
+	 size_t count{ 0 };
+	 do{
+	   if(index == count++)
+		   return temp;
+	 temp = temp->pNext;
+	 }while(true);
+   return nullptr;
 	}
 };
 
 
 int main()
 {
-	LinkedList ll;
+	LinkedList<Node> ll;
 	ll.AddNode("Martha", 1);
 	ll.AddNode("Sam", 2);
 	ll.AddNode("Tom", 3);
 	ll.AddNode("Sarah", 4);
 	ll.AddNode("Monica", 5);
 	ll.printNodes();
-  
+  cout << endl << "Index 3: " << ll[3]->showValue() << endl << endl;
   if(ll.searchNode("Sam") < ll.searchNode("Monica"))
 				cout << "Monica is gt than Sam" << endl;
   if(ll.searchNode("Tom") == ll.searchNode("Tom"))
@@ -130,5 +147,6 @@ int main()
 
 	ll.removeNode(3);
   ll.printNodes();
+	cout << endl << "Index 3: " << ll[3]->showValue() << endl;
 	return 0;
 }
