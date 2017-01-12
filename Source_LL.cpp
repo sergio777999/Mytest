@@ -2,13 +2,15 @@
 #include<string>
 #include<memory>
 #include<exception>
+#include<utility>
 
+using namespace std::rel_ops;
 using namespace std;
 
 class Node
 {
-	string name{};
-	int number{};
+	string name{ "" };
+	int number{ 0 };
 	shared_ptr<Node> pNext = nullptr;
 	static int total;
 public:
@@ -20,10 +22,13 @@ public:
 			++total;
 	}
 
-	int showTotal()
-	{
-		return total;
-	}
+	int showTotal()	{	return total;	}
+
+  inline bool operator<(const shared_ptr<Node> aNode) const
+	{ return this->number < aNode->number; }
+
+	inline bool operator==(const shared_ptr<Node> aNode) const
+	{ return this->number == aNode->number; }
 };
 
 int Node::total{ 0 };
@@ -32,15 +37,13 @@ class LinkedList
 {
 	shared_ptr<Node> pHead = nullptr;
 	shared_ptr<Node> pCurrent = nullptr;
-	shared_ptr<Node> pTail = nullptr;
-
+	
 public:
 	LinkedList()
 	{
 		if (!pHead)
 		{
 			pHead = make_shared<Node>("", 0);
-			pCurrent = pTail = pHead;
 		}
 	}
 
@@ -61,7 +64,6 @@ public:
 		}
 	}
 
-	
 	void printNodes()
 	{
 		if (pHead)
@@ -74,7 +76,40 @@ public:
 			cout << "Total number of records is: " << pHead->showTotal() << endl;
 		}
 	}
+
+  void removeNode(int i)
+	{
+	 if(pHead)
+	 {
+	  pCurrent = pHead;
+		shared_ptr<Node> temp;
+		int num{ 0 };
+		do
+		{
+		 temp = pCurrent->pNext;
+		 num = temp->number;
+		 if(num == i)
+		 {
+			pCurrent->pNext = temp->pNext;
+			pHead->total--;
+			return;
+		 }
+		}while(pCurrent = pCurrent->pNext);
+	 }
+	}
+
+  shared_ptr<Node> searchNode(string str)
+	{
+	 if(pHead)
+	 {
+	  pCurrent = pHead;
+		while(pCurrent = pCurrent->pNext)
+				 if(pCurrent->name == str)
+				   return pCurrent;
+	 }
+	}
 };
+
 
 int main()
 {
@@ -85,6 +120,15 @@ int main()
 	ll.AddNode("Sarah", 4);
 	ll.AddNode("Monica", 5);
 	ll.printNodes();
+  
+  if(ll.searchNode("Sam") < ll.searchNode("Monica"))
+				cout << "Monica is gt than Sam" << endl;
+  if(ll.searchNode("Tom") == ll.searchNode("Tom"))
+				cout << "Tom is equal to Tom" << endl;
+	if(!(ll.searchNode("Tom") == ll.searchNode("Sam")))
+				cout << "TOm is not equal to Sam" << endl;
 
+	ll.removeNode(3);
+  ll.printNodes();
 	return 0;
 }
