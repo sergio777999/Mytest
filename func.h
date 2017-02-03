@@ -6,3 +6,4 @@
 void func(std::string& s);
 
 #endif
+///////
