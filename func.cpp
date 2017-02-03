@@ -1,4 +1,5 @@
 ////
+///
 #include "./func.h"
 #include<iostream>
 #include<string>
@@ -12,4 +13,4 @@ void func(std::string& s)
 
 
 
-///////
+//////////
