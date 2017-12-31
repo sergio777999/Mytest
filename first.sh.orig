@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "chapter 12"
+echo "commit test"
+<<<<<<< HEAD
+
+
+
+
+echo "master branch update"
+=======
+#comment
+echo "test branch"
+>>>>>>> test
